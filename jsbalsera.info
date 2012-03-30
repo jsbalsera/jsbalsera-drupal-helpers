@@ -1,0 +1,5 @@
+
+name = JSBalsera 
+description = Adds my own helpers functions to help development.
+core = 6.x
+

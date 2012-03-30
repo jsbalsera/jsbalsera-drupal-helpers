@@ -1,0 +1,43 @@
+<?php
+
+function prd($var = ' ') {
+  pr($var);
+  die();
+}
+
+function pr($var = ' ') {
+  if (is_array($var) || is_object($var)) {
+    echo '<pre>' . print_r($var, true) . '</pre>';
+  }
+  else {
+    var_dump($var);
+  }
+}
+
+/**
+ * return an array with all the fields that are not an array
+ * @author Jesús Sánchez Balsera <jsbalsera@gmail.com>
+ * @return string physical directory where Drupal is installed
+ */
+function _helper_get_base_dir() {
+  return (str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . base_path()));
+}
+
+/**
+ * return an array with all the fields that are not an array
+ * @author Jesús Sánchez Balsera <jsbalsera@gmail.com>
+ * @param type $array 
+ * @return array without subarrays
+ */
+function _helper_extract_array_leafs($param) {
+  $result = array();
+  if (is_array($param)) {
+    foreach ($param as $k => $v) {
+      $result = array_merge($result, helper_extract_array_leafs($v));
+    }
+  } else {
+    $result[] = $param;
+  }
+  
+  return $result;
+}
