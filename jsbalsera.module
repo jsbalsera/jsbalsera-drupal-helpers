@@ -1,16 +1,29 @@
 <?php
 
-function prd($var = ' ') {
+function prd($var) {
   pr($var);
   die();
 }
 
-function pr($var = ' ') {
+function pr($var) {
   if (is_array($var) || is_object($var)) {
     echo '<pre>' . print_r($var, true) . '</pre>';
   }
   else {
     var_dump($var);
+  }
+  $_ = array_reverse(debug_backtrace());
+
+  while($d = array_pop($_)) {
+    if ((strpos(@$d['file'], 'jsbalsera') === FALSE)) {
+      break;
+    }
+  }
+  echo '<br />';
+
+  if (!empty($d['file'])) {
+    echo '<br />Called from <code>' . $d['file'] . '</code>,
+        line <code>' . $d['line'] .' </code></span>';
   }
 }
 
@@ -26,7 +39,7 @@ function _helper_get_base_dir() {
 /**
  * return an array with all the fields that are not an array
  * @author Jesús Sánchez Balsera <jsbalsera@gmail.com>
- * @param type $array 
+ * @param type $array
  * @return array without subarrays
  */
 function _helper_extract_array_leafs($param) {
@@ -38,6 +51,23 @@ function _helper_extract_array_leafs($param) {
   } else {
     $result[] = $param;
   }
-  
+
   return $result;
+}
+
+function jsbalsera_menu() {
+  $items = array();
+  $items['jsbalsera/test'] = array(
+    'title' => 'Dummy',
+    'page callback' => '_jsbalsera_text',
+    'description' => 'Testing function.',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+function _jsbalsera_text() {
+
+  echo 'Dummy menu entrance for testing';
 }
