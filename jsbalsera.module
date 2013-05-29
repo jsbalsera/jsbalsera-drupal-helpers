@@ -27,6 +27,22 @@ function pr($var) {
   }
 }
 
+function prq($query) {
+  $conditions = $query->conditions();
+
+  $query = (string)$query;
+  $query = str_replace('{', '', $query);
+  $query = str_replace('}', '', $query);
+
+  unset($conditions['#conjunction']);
+
+  for ($i = 0, $j = count($conditions); $i < $j; $i++) {
+    $query = str_replace(':db_condition_placeholder_' . $i, $conditions[$i]['value'], $query);
+  }
+
+  prd($query);
+}
+
 /**
  * return an array with all the fields that are not an array
  * @author Jesús Sánchez Balsera <jsbalsera@gmail.com>
